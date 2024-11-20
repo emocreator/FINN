@@ -1,4 +1,3 @@
-
 // NeuralNetwork.cc
 #include "../include/neuralnetwork.h"
 
