@@ -1,14 +1,24 @@
 #include "../include/lossfunction.h"
+#include <stdexcept>
 
 double FinanceLossFunctions::computeLoss(
     const std::vector<double> &predictedPrices,
     const std::vector<double> &marketPrices,
-    const std::vector<std::vector<double>> &features) {
-  double mse = meanSquaredError(predictedPrices, marketPrices);
-  double arbitragePenaltyValue = arbitragePenalty(predictedPrices);
+    [[maybe_unused]] const std::vector<std::vector<double>> &features) {
 
-  // Total loss is MSE plus arbitrage penalty
-  return mse + arbitragePenaltyValue;
+  if (predictedPrices.size() != marketPrices.size()) {
+    throw std::invalid_argument(
+        "Size mismatch between predicted and actual prices");
+  }
+
+  const double mse = meanSquaredError(predictedPrices, marketPrices);
+  const double arbitragePenaltyValue = arbitragePenalty(predictedPrices);
+
+  // Use weighted sum for better balance
+  constexpr double mseFactor = 0.7;
+  constexpr double arbitrageFactor = 0.3;
+
+  return mseFactor * mse + arbitrageFactor * arbitragePenaltyValue;
 }
 
 double FinanceLossFunctions::meanSquaredError(
