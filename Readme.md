@@ -38,10 +38,6 @@ Test Loss (including arbitrage penalty): 0.00486601
 - C++20 compiler
 - Make
 
-## License
-
-MIT License
-
 ## Acknowledgments
 
 Core concept inspired by tsotchke's [PINN project](https://github.com/tsotchke/PINN), adapting physics-informed principles to financial modeling.
